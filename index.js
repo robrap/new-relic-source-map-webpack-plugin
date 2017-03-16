@@ -40,3 +40,4 @@ class NewRelicPlugin {
 
 
 module.exports = NewRelicPlugin;
+
