@@ -6,6 +6,24 @@
   "repository": "git@github.com:1stdibs/new-relic-source-map-webpack-plugin.git",
   "author": "Walker Flynn <walker@1stdibs.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageDirectory": "<rootDir>/_coverage",
+    "collectCoverageFrom" : ["**/*.{js,jsx}", "!**/node_modules/**"],
+    "coverageReporters": ["text", "text-summary"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  },
   "devDependencies": {
     "jest": "^19.0.2"
   },
