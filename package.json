@@ -6,6 +6,16 @@
   "repository": "git@github.com:1stdibs/new-relic-source-map-webpack-plugin.git",
   "author": "Walker Flynn <walker@1stdibs.com>",
   "license": "MIT",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "newrelic",
+    "new relic",
+    "sourcemap",
+    "source map",
+    "upload",
+    "uploader"
+  ],
   "scripts": {
     "test": "jest"
   },
