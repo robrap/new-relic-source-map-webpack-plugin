@@ -17,7 +17,8 @@ class NewRelicPlugin {
     }
     apply(compiler) {
         return compiler.plugin('done', (stats) => {
-            return Promise.all(Object.keys(stats.compilation.assets)
+            return Promise.all(
+                Object.keys(stats.compilation.assets)
                 .filter(item => this.extensionRegex.test(item))
                 .map(uploadSourceMap({
                     assets: stats.compilation.assets,
@@ -27,12 +28,12 @@ class NewRelicPlugin {
                     nrAdminKey: this.nrAdminKey,
                     applicationId: this.applicationId,
                     stats
-                })))
-                .then((values) => {
-                    values.forEach(v => console.log(`sourceMap for ${v} uploaded to newrelic`));
-                }).catch((err) => {
-                    console.log(err);
-                });
+                }))
+            ).then((values) => {
+                values.forEach(v => console.log(`sourceMap for ${v} uploaded to newrelic`));
+            }).catch((err) => {
+                console.warn(`New Relic sourcemap upload error: ${err}`);
+            });
         });
     }
 };
