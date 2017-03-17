@@ -1,3 +1,4 @@
+"use strict";
 const enforceExists = require('../enforceExists');
 
 test('throws an error if the property is not on the object', () => {

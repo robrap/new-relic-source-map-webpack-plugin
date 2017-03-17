@@ -1,3 +1,4 @@
+"use strict";
 const findSourceMap = require('./findSourceMap');
 const {publishSourcemap} = require('@newrelic/publish-sourcemap');
 
@@ -14,12 +15,12 @@ module.exports = opts => item => {
 
     const fileObj = assets[item];
     if (!fileObj.children) {
-        return new Promise(res => res());
+        return Promise.resolve();
     }
 
     const mapFile = assets[findSourceMap(fileObj.children)];
     if (mapFile === undefined || !mapFile.emitted) {
-        return new Promise(res => res());
+        return Promise.resolve();
     }
 
     const javascriptUrl = staticAssetUrlBuilder(url, publicPath, item, stats);

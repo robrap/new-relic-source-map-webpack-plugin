@@ -1,3 +1,4 @@
+"use strict";
 const {publishSourcemap} = require('@newrelic/publish-sourcemap');
 const uploadSourceMap = require('./src/uploadSourceMap');
 const staticAssetUrlBuilder = require('./src/staticAssetUrlBuilder');

@@ -1,3 +1,4 @@
+"use strict";
 const staticAssetUrlBuilder = require('../staticAssetUrlBuilder');
 
 test('combines the url, publicPath, and filename', () => {

@@ -1,3 +1,4 @@
+"use strict";
 jest.mock('@newrelic/publish-sourcemap', () => {
     return {
         publishSourcemap: jest.fn((obj, cb) => {

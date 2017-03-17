@@ -1,3 +1,4 @@
+"use strict";
 const findSourceMap = require('../findSourceMap');
 
 test('when children does not contain a source map it returns an empty string', () => {
