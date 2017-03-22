@@ -6,14 +6,15 @@ const enforceExists = require('./src/enforceExists');
 
 class NewRelicPlugin {
     constructor(options) {
+        if (options.noop) {
+            this.apply = () => {};
+            return;
+        }
         this.applicationId = enforceExists(options, 'applicationId');
         this.nrAdminKey = enforceExists(options, 'nrAdminKey');
         this.staticAssetUrl = enforceExists(options, 'staticAssetUrl');
         this.staticAssetUrlBuilder = options.staticAssetUrlBuilder || staticAssetUrlBuilder;
         this.extensionRegex = options.extensionRegex || /\.js$/;
-        if (options.noop) {
-            this.apply = () => {};
-        }
     }
     apply(compiler) {
         return compiler.plugin('done', (stats) => {
