@@ -18,6 +18,17 @@ test('it throw an error if there is no application id', () => {
     expect(testFn).toThrowError("applicationId is required");
 });
 
+test('it doesnt throw an error if there is no application id if noop is true', () => {
+    const testFn = () => {
+        new NewRelicPlugin({
+            noop: true,
+            nrAdminKey: 'key',
+            staticAssetUrl: 'url'
+        });
+    };
+    expect(testFn).not.toThrowError("applicationId is required");
+});
+
 test('it throw an error if there is no staticAssetUrl', () => {
     const testFn = () => {
         new NewRelicPlugin({
@@ -87,6 +98,16 @@ test('if noop is passed it sets apply to a noop', () => {
     });
     nr.apply();
     expect(uploadSourceMap).not.toBeCalled();
+});
+
+test('if noop it returns an instance with an apply method', () => {
+    const nr = new NewRelicPlugin({
+        applicationId: 'id',
+        nrAdminKey: 'key',
+        staticAssetUrl: 'url',
+        noop: true
+    });
+    expect(nr.apply).toEqual(expect.any(Function));
 });
 
 test('apply adds a callback to the compiler done event', () => {
