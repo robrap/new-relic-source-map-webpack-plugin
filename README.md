@@ -23,9 +23,9 @@ module.exports = {
         ...yourPlugins,
         new NewRelicSourceMapPlugin({
             applicationId: 'YOUR NEW RELIC APP ID',
-            nrAdminKey: 'YOUR NEW RELIC ADMIN KEY',
+            nrAdminKey: process.env.NR_ADMIN_KEY,
             staticAssetUrl: 'http://examplecdn.com',
-            noop: process.env.NODE_ENV !== 'production' // only upload assets during production builds
+            noop: typeof process.env.NR_ADMIN_KEY === 'undefined', // upload source maps in prod builds only
         })
     ]   
 }
