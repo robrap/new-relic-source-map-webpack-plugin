@@ -12,7 +12,7 @@ or
 
 Instantiate the plugin and add it to your plugins array.
 
-`applicationId`, `nrAdminKey`, and `staticAssetUrl` are required.  Full list of options in the next section.
+`applicationId`, `nrAdminKey`, and `staticAssetUrl` are required unless `noop` is `true`.  Full list of options in the next section.
 
 ```js
 const NewRelicSourceMapPlugin = require('new-relic-source-map-webpack-plugin');
