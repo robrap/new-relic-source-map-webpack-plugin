@@ -1,5 +1,4 @@
 "use strict";
-const {publishSourcemap} = require('@newrelic/publish-sourcemap');
 const uploadSourceMap = require('./src/uploadSourceMap');
 const staticAssetUrlBuilder = require('./src/staticAssetUrlBuilder');
 const enforceExists = require('./src/enforceExists');
@@ -15,6 +14,8 @@ class NewRelicPlugin {
         this.staticAssetUrl = enforceExists(options, 'staticAssetUrl');
         this.staticAssetUrlBuilder = options.staticAssetUrlBuilder || staticAssetUrlBuilder;
         this.extensionRegex = options.extensionRegex || /\.js$/;
+        this.releaseName = options.releaseName || null;
+        this.releaseId = options.releaseId || null;
     }
     apply(compiler) {
         return compiler.plugin('done', (stats) => {
@@ -28,6 +29,8 @@ class NewRelicPlugin {
                     publicPath: stats.compilation.outputOptions.publicPath,
                     nrAdminKey: this.nrAdminKey,
                     applicationId: this.applicationId,
+                    releaseName: this.releaseName,
+                    releaseId: this.releaseId,
                     stats
                 }))
             ).then((values) => {

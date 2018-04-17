@@ -10,6 +10,8 @@ module.exports = opts => item => {
         applicationId,
         nrAdminKey,
         url,
+        releaseName,
+        releaseId,
         stats
     } = opts;
 
@@ -29,7 +31,9 @@ module.exports = opts => item => {
             sourcemapPath: mapFile.existsAt,
             javascriptUrl,
             applicationId,
-            nrAdminKey
+            nrAdminKey,
+            releaseName,
+            releaseId
         }, (err) => {
             if (err) {
                 reject(err);

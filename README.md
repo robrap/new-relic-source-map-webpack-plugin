@@ -31,6 +31,9 @@ module.exports = {
 }
 ```
 
+If you're using `releaseName` and `releaseId`, make sure one or both are unique per build and
+that you use the [`newrelic.addRelease`](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-agent-spa-api/add-release) method in your code to identify the release.
+
 ## Customize
 
 | Property       | Type           | Description  |
@@ -41,3 +44,5 @@ module.exports = {
 | staticAssetUrlBuilder | function | A function for building the production url your js file is built from.  Will be called for every javascript file with four arguments: staticAssetUrl, the public path from your webpack config, the filename, and the [webpack stats instance](https://github.com/webpack/webpack/blob/master/lib/Stats.js).  Defaults to `${removeLastCharIfSlash(url)}${removeLastCharIfSlash(publicPath)}/${file}` |
 | extensionRegex | regex | a regex used to find js files. Defaults to `/\.js$/` |
 | noop | boolean | control boolean that decides whether or not to run the plugin. Set to true for builds where you don't want to upload assets to new relic. |
+| releaseName | string | [Optional] unique identifier for the release name |
+| releaseId | string | [Optional] unique version for the release identifier |
