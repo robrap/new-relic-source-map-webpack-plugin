@@ -173,6 +173,8 @@ it('passes needed configs to uploadSourceMap', () => {
         staticAssetUrlBuilder: nr.staticAssetUrlBuilder,
         url: nr.staticAssetUrl,
         publicPath: 'path',
+        releaseId: null,
+        releaseName: null,
         nrAdminKey: nr.nrAdminKey,
         applicationId: nr.applicationId,
         stats
@@ -208,7 +210,7 @@ test('it logs the upload message for every uploaded file', () => {
     });
     console.log = jest.fn();
     const promise = nr.apply(compiler);
-    promise.then(() => {
+    return promise.then(() => {
         expect(console.log.mock.calls[0][0]).toMatch(/sourceMap for .* uploaded to newrelic/i);
     });
 });
@@ -240,10 +242,61 @@ test('it logs the error for an error is thrown', () => {
             });
         };
     });
-    console.log = jest.fn();
+    console.warn = jest.fn();
     const promise = nr.apply(compiler);
-    promise.catch(() => {
-        expect(console.log).toBeCalledWith('error');
+
+    expect.assertions(1);
+    return promise.then(() => {
+        expect(console.warn).toBeCalledWith('New Relic sourcemap upload error: error');
     });
 });
 
+test('it accepts a user defined errorCallback', () => {
+    const errorCallback = () => {};
+    const nr = new NewRelicPlugin({
+        applicationId: 'id',
+        nrAdminKey: 'key',
+        staticAssetUrl: 'url',
+        errorCallback
+    });
+    expect(nr.errorCallback).toBe(errorCallback);
+});
+
+test('it handles the error with the custom callback', () => {
+    const nr = new NewRelicPlugin({
+        applicationId: 'id',
+        nrAdminKey: 'key',
+        staticAssetUrl: 'url',
+        errorCallback: (err) => {
+            console.log(`There is an error - ${err}`);
+        }
+    });
+    const stats = {
+        compilation: {
+            assets: {
+                'something.js': {},
+                'somethingelse.js': {}
+            },
+            outputOptions: {
+                publicPath: 'path'
+            }
+        }
+    };
+    compiler.plugin.mockImplementation((name, cb) => {
+        return cb(stats);
+    });
+    uploadSourceMap.mockImplementation(() => {
+        return () => {
+            return new Promise((res, rej) => {
+                rej('some error');
+            });
+        };
+    });
+    console.log = jest.fn();
+    const promise = nr.apply(compiler);
+
+    expect.assertions(1);
+    return promise.then(() => {
+        expect(console.log).toBeCalledWith('There is an error - some error');
+    });
+});

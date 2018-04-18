@@ -46,3 +46,4 @@ that you use the [`newrelic.addRelease`](https://docs.newrelic.com/docs/browser/
 | noop | boolean | control boolean that decides whether or not to run the plugin. Set to true for builds where you don't want to upload assets to new relic. |
 | releaseName | string | [Optional] unique identifier for the release name |
 | releaseId | string | [Optional] unique version for the release identifier |
+| errorCallback | function | [Optional] A function for error callback. Default is ```console.warn(`New Relic sourcemap upload error: ${err}`)``` |

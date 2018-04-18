@@ -16,6 +16,7 @@ class NewRelicPlugin {
         this.extensionRegex = options.extensionRegex || /\.js$/;
         this.releaseName = options.releaseName || null;
         this.releaseId = options.releaseId || null;
+        this.errorCallback = options.errorCallback || this._getDefaultErrorCallback();
     }
     apply(compiler) {
         return compiler.plugin('done', (stats) => {
@@ -36,9 +37,14 @@ class NewRelicPlugin {
             ).then((values) => {
                 values.forEach(v => console.log(`sourceMap for ${v} uploaded to newrelic`));
             }).catch((err) => {
-                console.warn(`New Relic sourcemap upload error: ${err}`);
+                this.errorCallback(err);
             });
         });
+    }
+    _getDefaultErrorCallback() {
+        return (err) => {
+            console.warn(`New Relic sourcemap upload error: ${err}`);
+        }
     }
 };
 
