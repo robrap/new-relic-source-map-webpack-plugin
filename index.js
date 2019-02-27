@@ -19,7 +19,7 @@ class NewRelicPlugin {
         this.errorCallback = options.errorCallback || this._getDefaultErrorCallback();
     }
     apply(compiler) {
-        return compiler.plugin('done', (stats) => {
+        return compiler.hooks.done.tap('new-relic-source-map-webpack-plugin', stats => {
             return Promise.all(
                 Object.keys(stats.compilation.assets)
                 .filter(item => this.extensionRegex.test(item))
