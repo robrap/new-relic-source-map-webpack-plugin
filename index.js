@@ -34,7 +34,14 @@ class NewRelicPlugin {
                     releaseId: this.releaseId,
                     stats
                 }))
-            ).then((values) => {
+            ).then(values => values.filter(value => typeof value !== 'undefined')
+            ).then(values => {
+              values.length === 0 &&
+                this.errorCallback(
+                  'No sourcemaps were found. Check if sourcemaps are enabled: https://webpack.js.org/configuration/devtool/'
+                );
+              return values;
+            }).then((values) => {
                 values.forEach(v => console.log(`sourceMap for ${v} uploaded to newrelic`));
             }).catch((err) => {
                 this.errorCallback(err);
